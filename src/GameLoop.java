@@ -28,6 +28,7 @@ public class GameLoop {
             JPanel jp1 = new JPanel();
             jp1.setBorder(BorderFactory.createLineBorder(Color.BLACK));
             jp1.setBackground(Color.LIGHT_GRAY);
+            jp1.addMouseListener(new myMouseListener());
             gridPanel.add(jp1);
 
             int x_pos = i % gridSizeY;
