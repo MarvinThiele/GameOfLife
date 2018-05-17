@@ -2,20 +2,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class Cell {
+public class Cell extends JPanel {
     Boolean alive;
-    JPanel representation;
     ArrayList<Cell> neighbors = new ArrayList<Cell>();
     Boolean nextState;
 
-    public Cell(Boolean Alive, JPanel render) {
+    public Cell(Boolean Alive) {
         alive = Alive;
-        representation = render;
     }
 
     public void setAlive() {
         alive = true;
-        representation.setBackground(Color.GREEN);
+        this.setBackground(Color.GREEN);
     }
 
     public void nextState() {
@@ -49,16 +47,17 @@ public class Cell {
         alive = nextState;
 
         if (alive) {
-            representation.setBackground(Color.GREEN);
+            this.setBackground(Color.GREEN);
         }
         else {
-            representation.setBackground(Color.LIGHT_GRAY);
+            this.setBackground(Color.LIGHT_GRAY);
         }
+        //this.revalidate();
     }
 
     public void fillNeighbors() {
         while (neighbors.size() != 8) {
-            neighbors.add(new Cell(false, new JPanel()));
+            neighbors.add(new Cell(false));
         }
     }
 }

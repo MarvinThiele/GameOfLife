@@ -4,6 +4,8 @@ import java.awt.event.MouseListener;
 public class myMouseListener implements MouseListener {
     public void mouseClicked(MouseEvent event) {
         System.out.println("entered");
+        Cell a = (Cell) event.getSource();
+        a.setAlive();
     }
     public void mouseEntered(MouseEvent event) {
         //System.out.println("entered");

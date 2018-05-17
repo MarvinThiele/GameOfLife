@@ -11,31 +11,32 @@ public class GameLoop {
 
     public static void main(String[] args) throws InterruptedException{
         JFrame frame = new JFrame("Conway's Game of Life");
-
-
+        frame.setLayout(new BorderLayout());
 
         JButton btn2 = new JButton("First");
         JButton btn3 = new JButton("First");
 
         JPanel gridPanel = new JPanel();
-        gridPanel.setLayout(new GridLayout(gridSizeX,gridSizeY-1,1,1));
+        JPanel user_interface = new JPanel();
 
-        JPanel[][] multi = new JPanel[gridSizeX][gridSizeY];
+        user_interface.add(btn2);
+        user_interface.add(btn3);
+
+        gridPanel.setLayout(new GridLayout(gridSizeX,gridSizeY-1,1,1));
         Cell[][] cells = new Cell[gridSizeX][gridSizeY];
 
         // Generate Cells and Panels
         for (int i = 0; i < gridSizeX*gridSizeY; i++) {
-            JPanel jp1 = new JPanel();
-            jp1.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-            jp1.setBackground(Color.LIGHT_GRAY);
-            jp1.addMouseListener(new myMouseListener());
-            gridPanel.add(jp1);
+            Cell currentCell = new Cell(false);
+            currentCell.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            currentCell.setBackground(Color.LIGHT_GRAY);
+            currentCell.addMouseListener(new myMouseListener());
+            gridPanel.add(currentCell);
 
             int x_pos = i % gridSizeY;
             int y_pos = (int) i / gridSizeY;
 
-            multi[x_pos][y_pos] = jp1;
-            cells[x_pos][y_pos] = new Cell(false, jp1);
+            cells[x_pos][y_pos] = currentCell;
         }
 
         // Give Neighbors
@@ -128,18 +129,21 @@ public class GameLoop {
             }
         }
 
+        cells[0][0].setAlive();
         cells[5][5].setAlive();
         cells[4][5].setAlive();
         cells[6][5].setAlive();
 
-        frame.add(gridPanel);
+        frame.add(gridPanel, BorderLayout.CENTER);
+        frame.add(user_interface, BorderLayout.SOUTH);
         frame.setSize(gameWidth, gameHeight);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         Thread.sleep(2000);
         while (true) {
-            Thread.sleep(300);
+            Thread.sleep(3000);
+            System.out.println("Step");
             for (int x = 0; x < gridSizeX; x++) {
                 for (int y = 0; y < gridSizeY; y++) {
                     cells[x][y].nextState();
@@ -148,6 +152,7 @@ public class GameLoop {
             for (int x = 0; x < gridSizeX; x++) {
                 for (int y = 0; y < gridSizeY; y++) {
                     cells[x][y].step();
+                    cells[x][y].repaint();
                 }
             }
         }
