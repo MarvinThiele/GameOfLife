@@ -6,8 +6,8 @@ public class GameLoop {
     static int gameWidth = 1200;
     static int gameHeight = 900;
 
-    static int gridSizeX = 90;
-    static int gridSizeY = 90;
+    static int gridSizeX = 10;
+    static int gridSizeY = 10;
 
     public static void main(String[] args) throws InterruptedException{
         JFrame frame = new JFrame("Conway's Game of Life");
@@ -18,22 +18,26 @@ public class GameLoop {
         JButton btn3 = new JButton("First");
 
         JPanel gridPanel = new JPanel();
-        gridPanel.setLayout(new GridLayout(gridSizeX,gridSizeY));
+        gridPanel.setLayout(new GridLayout(gridSizeX,gridSizeY-1,1,1));
+
+        JPanel[][] multi = new JPanel[gridSizeX][gridSizeY];
 
         for (int i = 0; i < gridSizeX*gridSizeY; i++) {
             JPanel jp1 = new JPanel();
             jp1.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-            if (i % 2 == 0) {
-                jp1.setBackground(Color.LIGHT_GRAY);
-            }
-            else {
-                jp1.setBackground(Color.DARK_GRAY);
-            }
+            jp1.setBackground(Color.LIGHT_GRAY);
             gridPanel.add(jp1);
+
+            int x_pos = i % gridSizeY;
+            int y_pos = (int) i / gridSizeY;
+
+            multi[x_pos][y_pos] = jp1;
         }
 
-        gridPanel.add(btn2);
-        gridPanel.add(btn3);
+        multi[0][0].setBackground(Color.RED);
+        multi[0][1].setBackground(Color.RED);
+        multi[2][0].setBackground(Color.RED);
+        multi[2][1].setBackground(Color.RED);
 
         frame.add(gridPanel);
         frame.setSize(gameWidth, gameHeight);
