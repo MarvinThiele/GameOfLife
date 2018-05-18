@@ -1,7 +1,7 @@
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class myMouseListener implements MouseListener {
+public class cellMouseListener implements MouseListener {
     public void mouseClicked(MouseEvent event) {
 
     }

@@ -42,7 +42,7 @@ public class Game {
             Cell currentCell = new Cell(false);
             currentCell.setBorder(BorderFactory.createLineBorder(Color.BLACK));
             currentCell.setBackground(Color.LIGHT_GRAY);
-            currentCell.addMouseListener(new myMouseListener());
+            currentCell.addMouseListener(new cellMouseListener());
             gridPanel.add(currentCell);
 
             int x_pos = i % gridSizeY;
