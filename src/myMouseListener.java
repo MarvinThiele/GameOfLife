@@ -6,8 +6,8 @@ public class myMouseListener implements MouseListener {
 
     }
     public void mouseEntered(MouseEvent event) {
-        //Cell a = (Cell) event.getSource();
-        //a.setAlive();
+        Cell a = (Cell) event.getSource();
+        a.setAlive();
     }
     public void mouseExited(MouseEvent event) {
         //System.out.println("exited");

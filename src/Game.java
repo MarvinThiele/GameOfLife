@@ -6,8 +6,8 @@ public class Game {
     static int gameWidth = 1000;
     static int gameHeight = 1000;
 
-    static int gridSizeX = 20;
-    static int gridSizeY = 20;
+    static int gridSizeX = 100;
+    static int gridSizeY = 100;
 
     public Boolean paused = false;
 
@@ -26,7 +26,7 @@ public class Game {
         JFrame frame = new JFrame("Conway's Game of Life");
         frame.setLayout(new BorderLayout());
 
-        JButton pauseButton = new JButton("First");
+        JButton pauseButton = new JButton("Pause");
         pauseButton.addActionListener(new pauseButtonListener());
 
         JPanel gridPanel = new JPanel();
@@ -156,7 +156,7 @@ public class Game {
         try {
             Thread.sleep(2000);
             while (true) {
-                Thread.sleep(300);
+                Thread.sleep(50);
                 if (!paused) {
                     System.out.println("Step");
                     for (int x = 0; x < gridSizeX; x++) {
@@ -167,7 +167,7 @@ public class Game {
                     for (int x = 0; x < gridSizeX; x++) {
                         for (int y = 0; y < gridSizeY; y++) {
                             cells[x][y].step();
-                            cells[x][y].repaint();
+                            //cells[x][y].repaint();
                         }
                     }
                 }
