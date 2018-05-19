@@ -12,6 +12,8 @@ public class Game {
     public Boolean paused = false;
     public Boolean drawMode = false;
 
+    public int simulationSpeed = 200;
+
     private JCheckBox drawModeCheckbox;
 
     private Game() {
@@ -37,8 +39,14 @@ public class Game {
 
         drawModeCheckbox = new JCheckBox("Draw Mode");
 
+        JSlider speedSlider = new JSlider(JSlider.HORIZONTAL, 1, 1000, 200);
+        JLabel sliderLabel = new JLabel("Simulation Speed", JLabel.CENTER);
+        speedSlider.addChangeListener(new sliderListener(this));
+
         user_interface.add(pauseButton);
         user_interface.add(drawModeCheckbox);
+        user_interface.add(sliderLabel);
+        user_interface.add(speedSlider);
 
         gridPanel.setLayout(new GridLayout(gridSizeX,gridSizeY-1,1,1));
         Cell[][] cells = new Cell[gridSizeX][gridSizeY];
@@ -160,12 +168,11 @@ public class Game {
 
 
         try {
-            Thread.sleep(2000);
+            Thread.sleep(1000);
             while (true) {
-                Thread.sleep(200);
+                Thread.sleep(simulationSpeed);
                 checkCheckboxes();
                 if (!paused) {
-                    System.out.println("Step");
                     for (int x = 0; x < gridSizeX; x++) {
                         for (int y = 0; y < gridSizeY; y++) {
                             cells[x][y].nextState();
