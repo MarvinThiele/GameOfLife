@@ -16,6 +16,11 @@ public class Cell extends JPanel {
         this.setBackground(Color.GREEN);
     }
 
+    public void setDead() {
+        alive = false;
+        this.setBackground(Color.LIGHT_GRAY);
+    }
+
     public void nextState() {
         // Calculate Neighbors
         int neighbors_alive = 0;

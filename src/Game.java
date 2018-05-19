@@ -6,10 +6,13 @@ public class Game {
     static int gameWidth = 1000;
     static int gameHeight = 1000;
 
-    static int gridSizeX = 100;
-    static int gridSizeY = 100;
+    static int gridSizeX = 40;
+    static int gridSizeY = 40;
 
     public Boolean paused = false;
+    public Boolean drawMode = false;
+
+    private JCheckBox drawModeCheckbox;
 
     private Game() {
 
@@ -26,13 +29,16 @@ public class Game {
         JFrame frame = new JFrame("Conway's Game of Life");
         frame.setLayout(new BorderLayout());
 
-        JButton pauseButton = new JButton("Pause");
-        pauseButton.addActionListener(new pauseButtonListener());
-
         JPanel gridPanel = new JPanel();
         JPanel user_interface = new JPanel();
 
+        JButton pauseButton = new JButton("Pause");
+        pauseButton.addActionListener(new pauseButtonListener());
+
+        drawModeCheckbox = new JCheckBox("Draw Mode");
+
         user_interface.add(pauseButton);
+        user_interface.add(drawModeCheckbox);
 
         gridPanel.setLayout(new GridLayout(gridSizeX,gridSizeY-1,1,1));
         Cell[][] cells = new Cell[gridSizeX][gridSizeY];
@@ -42,7 +48,7 @@ public class Game {
             Cell currentCell = new Cell(false);
             currentCell.setBorder(BorderFactory.createLineBorder(Color.BLACK));
             currentCell.setBackground(Color.LIGHT_GRAY);
-            currentCell.addMouseListener(new cellMouseListener());
+            currentCell.addMouseListener(new cellMouseListener(this));
             gridPanel.add(currentCell);
 
             int x_pos = i % gridSizeY;
@@ -156,7 +162,8 @@ public class Game {
         try {
             Thread.sleep(2000);
             while (true) {
-                Thread.sleep(50);
+                Thread.sleep(200);
+                checkCheckboxes();
                 if (!paused) {
                     System.out.println("Step");
                     for (int x = 0; x < gridSizeX; x++) {
@@ -175,6 +182,15 @@ public class Game {
         }
         catch (InterruptedException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void checkCheckboxes() {
+        if (drawModeCheckbox.isSelected()) {
+            drawMode = true;
+        }
+        else {
+            drawMode = false;
         }
     }
 }
