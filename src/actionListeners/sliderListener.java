@@ -1,3 +1,7 @@
+package actionListeners;
+
+import gameLogic.Game;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;

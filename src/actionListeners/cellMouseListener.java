@@ -1,3 +1,8 @@
+package actionListeners;
+
+import gameLogic.Cell;
+import gameLogic.Game;
+
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 

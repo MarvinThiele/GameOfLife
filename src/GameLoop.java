@@ -1,5 +1,4 @@
-import javax.swing.*;
-import java.awt.*;
+import gameLogic.Game;
 
 public class GameLoop {
 

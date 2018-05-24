@@ -1,10 +1,12 @@
+package gameLogic;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
 public class Cell extends JPanel {
-    Boolean alive;
-    ArrayList<Cell> neighbors = new ArrayList<Cell>();
+    public Boolean alive;
+    public ArrayList<Cell> neighbors = new ArrayList<Cell>();
     Boolean nextState;
 
     public Cell(Boolean Alive) {

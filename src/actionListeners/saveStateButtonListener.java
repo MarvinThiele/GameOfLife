@@ -1,4 +1,7 @@
-import javax.sound.midi.SysexMessage;
+package actionListeners;
+
+import gameLogic.Game;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
