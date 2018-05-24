@@ -1,18 +1,20 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 
 public class Game {
     private static Game uniqueInstance;
     static int gameWidth = 1000;
     static int gameHeight = 1000;
 
-    static int gridSizeX = 40;
-    static int gridSizeY = 40;
+    static public int gridSizeX = 40;
+    static public int gridSizeY = 40;
 
     public Boolean paused = false;
     public Boolean drawMode = false;
 
     public int simulationSpeed = 200;
+    public Cell[][] cells;
 
     private JCheckBox drawModeCheckbox;
 
@@ -28,6 +30,8 @@ public class Game {
     }
 
     public void run() {
+        cells = new Cell[gridSizeX][gridSizeY];
+
         JFrame frame = new JFrame("Conway's Game of Life");
         frame.setLayout(new BorderLayout());
 
@@ -43,13 +47,21 @@ public class Game {
         JLabel sliderLabel = new JLabel("Simulation Speed", JLabel.CENTER);
         speedSlider.addChangeListener(new sliderListener(this));
 
+        JButton saveStateButton = new JButton("Save State");
+        saveStateButton.addActionListener(new saveStateButtonListener(this));
+
+        JButton loadStateButton = new JButton("Load State");
+        loadStateButton.addActionListener(new loadStateButtonListener(this));
+
         user_interface.add(pauseButton);
         user_interface.add(drawModeCheckbox);
         user_interface.add(sliderLabel);
         user_interface.add(speedSlider);
+        user_interface.add(saveStateButton);
+        user_interface.add(loadStateButton);
 
         gridPanel.setLayout(new GridLayout(gridSizeX,gridSizeY-1,1,1));
-        Cell[][] cells = new Cell[gridSizeX][gridSizeY];
+
 
         // Generate Cells and Panels
         for (int i = 0; i < gridSizeX*gridSizeY; i++) {
