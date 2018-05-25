@@ -16,6 +16,7 @@ public class clearBoardButtonListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         for (int i = 0; i < game.gridSizeY; i++) {
             for (int j = 0; j < game.gridSizeX; j++) {
+                game.cells[j][i].wasAlive = false;
                 game.cells[j][i].setDead();
             }
         }

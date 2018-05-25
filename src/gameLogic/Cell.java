@@ -8,7 +8,7 @@ public class Cell extends JPanel {
     public Boolean alive;
     public ArrayList<Cell> neighbors = new ArrayList<Cell>();
     Boolean nextState;
-    Boolean wasAlive = false;
+    public Boolean wasAlive = false;
 
     public Cell(Boolean alive) {
         this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -65,8 +65,6 @@ public class Cell extends JPanel {
         alive = nextState;
 
         if (alive) {
-            System.out.println(nextState);
-            System.out.println("Set Alive");
             this.setAlive();
         }
         else {

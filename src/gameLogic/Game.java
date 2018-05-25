@@ -3,6 +3,7 @@ package gameLogic;
 import actionListeners.*;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 
 public class Game {
@@ -18,6 +19,8 @@ public class Game {
 
     public int simulationSpeed = 200;
     public Cell[][] cells;
+
+    public int epochCount = 0;
 
     private JCheckBox drawModeCheckbox;
 
@@ -38,6 +41,9 @@ public class Game {
         JFrame frame = new JFrame("Conway's Game of Life");
         frame.setLayout(new BorderLayout());
 
+        ImageIcon img = new ImageIcon("./resources/icon.png");
+        frame.setIconImage(img.getImage());
+
         JPanel gridPanel = new JPanel();
         JPanel user_interface = new JPanel();
 
@@ -46,7 +52,7 @@ public class Game {
 
         drawModeCheckbox = new JCheckBox("Draw Mode");
 
-        JSlider speedSlider = new JSlider(JSlider.HORIZONTAL, 1, 1000, 200);
+        JSlider speedSlider = new JSlider(JSlider.HORIZONTAL, 0, 1000, 200);
         JLabel sliderLabel = new JLabel("Simulation Speed", JLabel.CENTER);
         speedSlider.addChangeListener(new sliderListener(this));
 
@@ -59,6 +65,9 @@ public class Game {
         JButton clearBoardButton = new JButton("Clear Board");
         clearBoardButton.addActionListener(new clearBoardButtonListener(this));
 
+        JPanel user_interface_container = new JPanel();
+        user_interface_container.setLayout(new BorderLayout());
+
         user_interface.add(pauseButton);
         user_interface.add(drawModeCheckbox);
         user_interface.add(sliderLabel);
@@ -66,6 +75,29 @@ public class Game {
         user_interface.add(saveStateButton);
         user_interface.add(loadStateButton);
         user_interface.add(clearBoardButton);
+        user_interface_container.add(user_interface, BorderLayout.NORTH);
+
+        JPanel statistics_panel = new JPanel();
+        JLabel epochCountLabel = new JLabel();
+        epochCountLabel.setText("Generation : 0");
+
+        statistics_panel.add(epochCountLabel);
+        frame.add(statistics_panel, BorderLayout.NORTH);
+
+        JPanel settings_panel = new JPanel();
+        JLabel heightLabel = new JLabel("Height:");
+        JTextField heightTextField = new JTextField();
+        heightTextField.setPreferredSize(new Dimension(50, 24));
+        JLabel widthLabel = new JLabel("Width:");
+        JTextField widthTextField = new JTextField();
+        widthTextField.setPreferredSize(new Dimension(50, 24));
+
+        settings_panel.add(heightLabel);
+        settings_panel.add(heightTextField);
+        settings_panel.add(widthLabel);
+        settings_panel.add(widthTextField);
+
+        user_interface_container.add(settings_panel, BorderLayout.SOUTH);
 
         gridPanel.setLayout(new GridLayout(gridSizeX,gridSizeY-1,0,0));
 
@@ -172,16 +204,11 @@ public class Game {
             }
         }
 
-        //cells[5][5].setAlive();
-        //cells[4][5].setAlive();
-        //cells[6][5].setAlive();
-
         frame.add(gridPanel, BorderLayout.CENTER);
-        frame.add(user_interface, BorderLayout.SOUTH);
+        frame.add(user_interface_container, BorderLayout.SOUTH);
         frame.setSize(gameWidth, gameHeight);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
 
         try {
             Thread.sleep(2000);
@@ -189,6 +216,8 @@ public class Game {
                 Thread.sleep(simulationSpeed);
                 checkCheckboxes();
                 if (!paused) {
+                    epochCount++;
+                    epochCountLabel.setText("Generation "+Integer.toString(epochCount)+":");
                     for (int x = 0; x < gridSizeX; x++) {
                         for (int y = 0; y < gridSizeY; y++) {
                             cells[x][y].nextState();

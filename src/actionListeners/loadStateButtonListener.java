@@ -15,6 +15,7 @@ public class loadStateButtonListener implements ActionListener {
     }
     @Override
     public void actionPerformed(ActionEvent e) {
+        game.epochCount = 0;
         JFileChooser c = new JFileChooser();
         // Demonstrate "Open" dialog:
         int rVal = c.showOpenDialog(null);
@@ -32,13 +33,13 @@ public class loadStateButtonListener implements ActionListener {
                         String states[] = br.readLine().split(" ");
                         for (int j = 0; j < game.gridSizeX; j++) {
                             if (states[j].equals("0")) {
+                                game.cells[j][i].wasAlive = false;
                                 game.cells[j][i].setDead();
                             }
                             else {
                                 game.cells[j][i].setAlive();
                             }
                         }
-                        System.out.println("");
                     }
                 }
                 else {
