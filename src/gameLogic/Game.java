@@ -56,12 +56,16 @@ public class Game {
         JButton loadStateButton = new JButton("Load State");
         loadStateButton.addActionListener(new loadStateButtonListener(this));
 
+        JButton clearBoardButton = new JButton("Clear Board");
+        clearBoardButton.addActionListener(new clearBoardButtonListener(this));
+
         user_interface.add(pauseButton);
         user_interface.add(drawModeCheckbox);
         user_interface.add(sliderLabel);
         user_interface.add(speedSlider);
         user_interface.add(saveStateButton);
         user_interface.add(loadStateButton);
+        user_interface.add(clearBoardButton);
 
         gridPanel.setLayout(new GridLayout(gridSizeX,gridSizeY-1,1,1));
 
@@ -170,7 +174,6 @@ public class Game {
             }
         }
 
-        cells[0][0].setAlive();
         cells[5][5].setAlive();
         cells[4][5].setAlive();
         cells[6][5].setAlive();
