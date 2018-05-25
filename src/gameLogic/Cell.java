@@ -20,7 +20,7 @@ public class Cell extends JPanel {
 
     public void setDead() {
         alive = false;
-        this.setBackground(Color.LIGHT_GRAY);
+        this.setBackground(Color.BLACK);
     }
 
     public void nextState() {
@@ -57,7 +57,7 @@ public class Cell extends JPanel {
             this.setBackground(Color.GREEN);
         }
         else {
-            this.setBackground(Color.LIGHT_GRAY);
+            this.setBackground(Color.BLACK);
         }
         //this.revalidate();
     }

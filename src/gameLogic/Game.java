@@ -10,8 +10,8 @@ public class Game {
     static int gameWidth = 1000;
     static int gameHeight = 1000;
 
-    static public int gridSizeX = 40;
-    static public int gridSizeY = 40;
+    static public int gridSizeX = 100;
+    static public int gridSizeY = 100;
 
     public Boolean paused = false;
     public Boolean drawMode = false;
@@ -67,7 +67,7 @@ public class Game {
         user_interface.add(loadStateButton);
         user_interface.add(clearBoardButton);
 
-        gridPanel.setLayout(new GridLayout(gridSizeX,gridSizeY-1,1,1));
+        gridPanel.setLayout(new GridLayout(gridSizeX,gridSizeY-1,0,0));
 
 
         // Generate Cells and Panels
