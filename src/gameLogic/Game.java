@@ -73,8 +73,6 @@ public class Game {
         // Generate Cells and Panels
         for (int i = 0; i < gridSizeX*gridSizeY; i++) {
             Cell currentCell = new Cell(false);
-            currentCell.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-            currentCell.setBackground(Color.LIGHT_GRAY);
             currentCell.addMouseListener(new cellMouseListener(this));
             gridPanel.add(currentCell);
 
@@ -174,9 +172,9 @@ public class Game {
             }
         }
 
-        cells[5][5].setAlive();
-        cells[4][5].setAlive();
-        cells[6][5].setAlive();
+        //cells[5][5].setAlive();
+        //cells[4][5].setAlive();
+        //cells[6][5].setAlive();
 
         frame.add(gridPanel, BorderLayout.CENTER);
         frame.add(user_interface, BorderLayout.SOUTH);
@@ -186,7 +184,7 @@ public class Game {
 
 
         try {
-            Thread.sleep(1000);
+            Thread.sleep(2000);
             while (true) {
                 Thread.sleep(simulationSpeed);
                 checkCheckboxes();

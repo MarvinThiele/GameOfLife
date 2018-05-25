@@ -8,19 +8,29 @@ public class Cell extends JPanel {
     public Boolean alive;
     public ArrayList<Cell> neighbors = new ArrayList<Cell>();
     Boolean nextState;
+    Boolean wasAlive = false;
 
-    public Cell(Boolean Alive) {
-        alive = Alive;
+    public Cell(Boolean alive) {
+        this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        this.setBackground(Color.RED);
+        this.alive = alive;
     }
 
     public void setAlive() {
         alive = true;
+        wasAlive = true;
         this.setBackground(Color.GREEN);
     }
 
     public void setDead() {
         alive = false;
-        this.setBackground(Color.BLACK);
+        if (!wasAlive) {
+            this.setBackground(Color.BLACK);
+        }
+        else {
+            this.setBackground(Color.DARK_GRAY);
+        }
+
     }
 
     public void nextState() {
@@ -39,7 +49,7 @@ public class Cell extends JPanel {
         else if (neighbors_alive > 3) {
             nextState = false;
         }
-        else if (!alive && neighbors_alive == 3){
+        else if (!alive && neighbors_alive == 3) {
             nextState = true;
         }
         else if (alive) {
@@ -51,15 +61,17 @@ public class Cell extends JPanel {
     }
 
     public void step() {
+
         alive = nextState;
 
         if (alive) {
-            this.setBackground(Color.GREEN);
+            System.out.println(nextState);
+            System.out.println("Set Alive");
+            this.setAlive();
         }
         else {
-            this.setBackground(Color.BLACK);
+            this.setDead();
         }
-        //this.revalidate();
     }
 
     public void fillNeighbors() {
