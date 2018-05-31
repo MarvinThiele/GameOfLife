@@ -49,19 +49,19 @@ public class Game {
 
 
         // User Interface
-        JButton pauseButton = new JButton("Pause");
+        JButton pauseButton = new JButton("Pause Simulation");
         pauseButton.addActionListener(new pauseButtonListener());
 
         drawModeCheckbox = new JCheckBox("Draw Mode");
 
         JLabel speedSliderLabel = new JLabel("Simulation Speed", JLabel.CENTER);
-        JSlider speedSlider = new JSlider(JSlider.HORIZONTAL, 0, 1000, 200);
+        JSlider speedSlider = new JSlider(JSlider.HORIZONTAL, 0, 2000, 1500);
         speedSlider.addChangeListener(new sliderListener(this));
 
-        JButton saveStateButton = new JButton("Save State");
+        JButton saveStateButton = new JButton("Save Board");
         saveStateButton.addActionListener(new saveStateButtonListener(this));
 
-        JButton loadStateButton = new JButton("Load State");
+        JButton loadStateButton = new JButton("Load Board");
         loadStateButton.addActionListener(new loadStateButtonListener(this, pauseButton));
 
         JButton clearBoardButton = new JButton("Clear Board");
@@ -91,12 +91,12 @@ public class Game {
         JLabel gameSizeLabel = new JLabel("Game Size:");
         JTextField gameSizeTextField = new JTextField();
         gameSizeTextField.setPreferredSize(new Dimension(50, 24));
-        JButton setDimensionsButton = new JButton("Save Dimensions");
-        setDimensionsButton.addActionListener(new setDimensionsListener(this, gameSizeTextField, pauseButton));
+        JButton setBoardSizeButton = new JButton("Set Board Size");
+        setBoardSizeButton.addActionListener(new setDimensionsListener(this, gameSizeTextField, pauseButton));
 
         settings_panel.add(gameSizeLabel);
         settings_panel.add(gameSizeTextField);
-        settings_panel.add(setDimensionsButton);
+        settings_panel.add(setBoardSizeButton);
 
         user_interface_container.add(settings_panel, BorderLayout.SOUTH);
 
@@ -109,8 +109,20 @@ public class Game {
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        //
+
+
         try {
             Thread.sleep(500);
+            cells[49][50].setAlive();
+            cells[49][49].setAlive();
+            cells[49][48].setAlive();
+
+            cells[51][50].setAlive();
+            cells[51][49].setAlive();
+            cells[51][48].setAlive();
+
+            cells[50][50].setAlive();
             while (true) {
                 Thread.sleep(simulationSpeed);
                 checkCheckboxes();

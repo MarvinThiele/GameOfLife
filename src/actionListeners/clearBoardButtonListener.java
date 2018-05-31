@@ -14,6 +14,7 @@ public class clearBoardButtonListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        game.epochCount = 0;
         for (int i = 0; i < game.gridSizeY; i++) {
             for (int j = 0; j < game.gridSizeX; j++) {
                 game.cells[j][i].wasAlive = false;
