@@ -3,7 +3,6 @@ package gameLogic;
 import actionListeners.*;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 
 public class Game {
@@ -53,27 +52,32 @@ public class Game {
         pauseButton.addActionListener(new pauseButtonListener());
 
         drawModeCheckbox = new JCheckBox("Draw Mode");
+        drawModeCheckbox.setForeground(Color.WHITE);
+        drawModeCheckbox.setBackground(Color.GRAY);
 
         JLabel speedSliderLabel = new JLabel("Simulation Speed", JLabel.CENTER);
+        speedSliderLabel.setForeground(Color.WHITE);
         JSlider speedSlider = new JSlider(JSlider.HORIZONTAL, 0, 2000, 1500);
+        speedSlider.setBackground(Color.GRAY);
         speedSlider.addChangeListener(new sliderListener(this));
 
-        JButton saveStateButton = new JButton("Save Board");
-        saveStateButton.addActionListener(new saveStateButtonListener(this));
+        JButton saveBoardButton = new JButton("Save Board");
+        saveBoardButton.addActionListener(new saveBoardButtonListener(this));
 
-        JButton loadStateButton = new JButton("Load Board");
-        loadStateButton.addActionListener(new loadStateButtonListener(this, pauseButton));
+        JButton loadBoardButton = new JButton("Load Board");
+        loadBoardButton.addActionListener(new loadBoardButtonListener(this, pauseButton));
 
         JButton clearBoardButton = new JButton("Clear Board");
         clearBoardButton.addActionListener(new clearBoardButtonListener(this));
 
         JPanel user_interface = new JPanel();
+        user_interface.setBackground(Color.GRAY);
         user_interface.add(pauseButton);
         user_interface.add(drawModeCheckbox);
         user_interface.add(speedSliderLabel);
         user_interface.add(speedSlider);
-        user_interface.add(saveStateButton);
-        user_interface.add(loadStateButton);
+        user_interface.add(saveBoardButton);
+        user_interface.add(loadBoardButton);
         user_interface.add(clearBoardButton);
 
         JPanel user_interface_container = new JPanel();
@@ -84,16 +88,21 @@ public class Game {
         JPanel statistics_panel = new JPanel();
         JLabel epochCountLabel = new JLabel();
         epochCountLabel.setText("Generation 0");
+        epochCountLabel.setForeground(Color.WHITE);
+
+        statistics_panel.setBackground(Color.GRAY);
         statistics_panel.add(epochCountLabel);
 
         // Settings
         JPanel settings_panel = new JPanel();
         JLabel gameSizeLabel = new JLabel("Game Size:");
+        gameSizeLabel.setForeground(Color.WHITE);
         JTextField gameSizeTextField = new JTextField();
         gameSizeTextField.setPreferredSize(new Dimension(50, 24));
         JButton setBoardSizeButton = new JButton("Set Board Size");
-        setBoardSizeButton.addActionListener(new setDimensionsListener(this, gameSizeTextField, pauseButton));
+        setBoardSizeButton.addActionListener(new setBoardSizeListener(this, gameSizeTextField, pauseButton));
 
+        settings_panel.setBackground(Color.GRAY);
         settings_panel.add(gameSizeLabel);
         settings_panel.add(gameSizeTextField);
         settings_panel.add(setBoardSizeButton);
@@ -101,6 +110,7 @@ public class Game {
         user_interface_container.add(settings_panel, BorderLayout.SOUTH);
 
         this.gameField = createGamePanel(gridSizeX, gridSizeY);
+        this.gameField.setBackground(Color.LIGHT_GRAY);
 
         frame.add(statistics_panel, BorderLayout.NORTH);
         frame.add(gameField, BorderLayout.CENTER);

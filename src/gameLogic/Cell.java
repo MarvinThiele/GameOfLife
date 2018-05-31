@@ -12,7 +12,7 @@ public class Cell extends JPanel {
 
     public Cell(Boolean alive) {
         this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        this.setBackground(Color.RED);
+        this.setBackground(Color.GREEN);
         this.alive = alive;
     }
 

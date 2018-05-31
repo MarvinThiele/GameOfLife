@@ -10,10 +10,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class saveStateButtonListener implements ActionListener{
+public class saveBoardButtonListener implements ActionListener{
     Game game;
 
-    public saveStateButtonListener(Game gameReference) {
+    public saveBoardButtonListener(Game gameReference) {
         game = gameReference;
     }
     @Override

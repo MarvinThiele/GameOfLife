@@ -7,11 +7,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 
-public class loadStateButtonListener implements ActionListener {
+public class loadBoardButtonListener implements ActionListener {
     Game game;
     JButton pauseButton;
 
-    public loadStateButtonListener(Game gameReference, JButton pauseButton) {
+    public loadBoardButtonListener(Game gameReference, JButton pauseButton) {
         this.game = gameReference;
         this.pauseButton = pauseButton;
     }
@@ -49,7 +49,7 @@ public class loadStateButtonListener implements ActionListener {
                 }
                 br.close();
                 game.drawModeCheckbox.setSelected(false);
-                pauseButton.setText("Resume");
+                pauseButton.setText("Resume Simulation");
 
 
             } catch (IOException e1) {

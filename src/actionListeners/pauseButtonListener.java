@@ -14,10 +14,10 @@ public class pauseButtonListener implements ActionListener {
 
         JButton btn = (JButton) e.getSource();
         if (btn.getText() == "Pause") {
-            btn.setText("Resume");
+            btn.setText("Resume Simulation");
         }
         else {
-            btn.setText("Pause");
+            btn.setText("Pause Simulation");
         }
     }
 }

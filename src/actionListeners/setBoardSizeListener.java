@@ -6,12 +6,12 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class setDimensionsListener implements ActionListener {
+public class setBoardSizeListener implements ActionListener {
     Game game;
     JTextField gameSizeTextField;;
     JButton pauseButton;
 
-    public setDimensionsListener(Game gameReference, JTextField gameSizeTextField, JButton pauseButton) {
+    public setBoardSizeListener(Game gameReference, JTextField gameSizeTextField, JButton pauseButton) {
         this.game = gameReference;
         this.gameSizeTextField = gameSizeTextField;
         this.pauseButton = pauseButton;
@@ -27,7 +27,7 @@ public class setDimensionsListener implements ActionListener {
                 game.gameField = game.createGamePanel(size, size);
                 game.frame.add(game.gameField);
                 game.paused = false;
-                pauseButton.setText("Pause");
+                pauseButton.setText("Pause Simulation");
             }
             else {
                 throw new NumberFormatException();
