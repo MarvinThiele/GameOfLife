@@ -6,7 +6,6 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Game {
-    private static Game uniqueInstance;
 
     private static int gameWidth = 1000;
     private static int gameHeight = 1000;
@@ -26,29 +25,20 @@ public class Game {
 
     public JCheckBox drawModeCheckbox;
 
-    private Game() {
-
-    }
-
-    public static Game getInstance() {
-        if (uniqueInstance == null) {
-            uniqueInstance = new Game();
-        }
-        return uniqueInstance;
+    public Game() {
+        this.run();
     }
 
     public void run() {
 
-
+        // Initialize the game window
         frame = new JFrame("Conway's Game of Life");
         frame.setLayout(new BorderLayout());
 
         ImageIcon img = new ImageIcon("./resources/icon.png");
         frame.setIconImage(img.getImage());
 
-
-
-        // User Interface
+        // Initialize the user interface
         JButton pauseButton = new JButton("Pause Simulation");
         pauseButton.addActionListener(new pauseButtonListener(this, pauseButton));
 
@@ -81,11 +71,12 @@ public class Game {
         user_interface.add(loadBoardButton);
         user_interface.add(clearBoardButton);
 
+        // Initialize user interface container
         JPanel user_interface_container = new JPanel();
         user_interface_container.setLayout(new BorderLayout());
         user_interface_container.add(user_interface, BorderLayout.NORTH);
 
-        // Statistics
+        // Initialize statistics
         JPanel statistics_panel = new JPanel();
         JLabel epochCountLabel = new JLabel();
         epochCountLabel.setText("Generation 0");
@@ -94,7 +85,7 @@ public class Game {
         statistics_panel.setBackground(Color.GRAY);
         statistics_panel.add(epochCountLabel);
 
-        // Settings
+        // Initialize settings user interface
         JPanel settings_panel = new JPanel();
         JLabel gameSizeLabel = new JLabel("Game Size:");
         gameSizeLabel.setForeground(Color.WHITE);
