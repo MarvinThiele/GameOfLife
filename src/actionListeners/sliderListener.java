@@ -7,10 +7,10 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 public class sliderListener implements ChangeListener {
-    Game game;
+    private Game game;
 
     public sliderListener(Game gameReference) {
-        game = gameReference;
+        this.game = gameReference;
     }
 
     @Override

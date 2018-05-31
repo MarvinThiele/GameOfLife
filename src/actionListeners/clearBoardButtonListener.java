@@ -6,10 +6,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class clearBoardButtonListener implements ActionListener {
-    Game game;
+    private Game game;
 
     public clearBoardButtonListener(Game gameReference) {
-        game = gameReference;
+        this.game = gameReference;
     }
 
     @Override

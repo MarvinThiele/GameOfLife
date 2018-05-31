@@ -11,20 +11,20 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class saveBoardButtonListener implements ActionListener{
-    Game game;
+    private Game game;
 
     public saveBoardButtonListener(Game gameReference) {
-        game = gameReference;
+        this.game = gameReference;
     }
     @Override
     public void actionPerformed(ActionEvent e) {
         JFileChooser c = new JFileChooser();
-        // Demonstrate "Save" dialog:
+
         int rVal = c.showSaveDialog(null);
         if (rVal == JFileChooser.APPROVE_OPTION) {
             System.out.println("Chosen File");
             File file = c.getSelectedFile();
-            BufferedWriter writer = null;
+            BufferedWriter writer;
             try {
                 writer = new BufferedWriter(new FileWriter(file));
                 writer.append(Integer.toString(game.gridSizeX));
@@ -47,11 +47,6 @@ public class saveBoardButtonListener implements ActionListener{
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
-
-
-        }
-        if (rVal == JFileChooser.CANCEL_OPTION) {
-            System.out.println("Canceld File Opening");
         }
     }
 }

@@ -8,28 +8,32 @@ import java.awt.event.MouseListener;
 
 public class cellMouseListener implements MouseListener {
 
-    Game game;
+    private Game game;
 
     public cellMouseListener(Game gameReference) {
-        game = gameReference;
+        this.game = gameReference;
     }
 
     public void mouseClicked(MouseEvent event) {
 
     }
+
     public void mouseEntered(MouseEvent event) {
         if (game.drawMode) {
             Cell selectedCell = (Cell) event.getSource();
             reverseCellState(selectedCell);
         }
     }
+
     public void mouseExited(MouseEvent event) {
 
     }
+
     public void mousePressed(MouseEvent event) {
         Cell selectedCell = (Cell) event.getSource();
         reverseCellState(selectedCell);
     }
+
     public void mouseReleased(MouseEvent event) {
 
     }
@@ -42,4 +46,4 @@ public class cellMouseListener implements MouseListener {
             cell.setAlive();
         }
     }
-} // inner class clickListener
+}

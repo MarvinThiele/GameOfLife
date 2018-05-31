@@ -8,18 +8,19 @@ import java.awt.event.ActionListener;
 import java.io.*;
 
 public class loadBoardButtonListener implements ActionListener {
-    Game game;
-    JButton pauseButton;
+    private Game game;
+    private JButton pauseButton;
 
     public loadBoardButtonListener(Game gameReference, JButton pauseButton) {
         this.game = gameReference;
         this.pauseButton = pauseButton;
     }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         game.epochCount = 0;
         JFileChooser c = new JFileChooser();
-        // Demonstrate "Open" dialog:
+
         int rVal = c.showOpenDialog(game.frame);
         if (rVal == JFileChooser.APPROVE_OPTION) {
             File file = c.getSelectedFile();
@@ -51,13 +52,9 @@ public class loadBoardButtonListener implements ActionListener {
                 game.drawModeCheckbox.setSelected(false);
                 pauseButton.setText("Resume Simulation");
 
-
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
-        }
-        if (rVal == JFileChooser.CANCEL_OPTION) {
-            System.out.println("Canceld File Loading");
         }
     }
 }

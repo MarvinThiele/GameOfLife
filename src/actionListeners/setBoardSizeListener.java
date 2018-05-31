@@ -7,9 +7,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class setBoardSizeListener implements ActionListener {
-    Game game;
-    JTextField gameSizeTextField;;
-    JButton pauseButton;
+    private Game game;
+    private JTextField gameSizeTextField;
+    private JButton pauseButton;
 
     public setBoardSizeListener(Game gameReference, JTextField gameSizeTextField, JButton pauseButton) {
         this.game = gameReference;

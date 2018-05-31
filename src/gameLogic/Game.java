@@ -7,11 +7,12 @@ import java.awt.*;
 
 public class Game {
     private static Game uniqueInstance;
-    static int gameWidth = 1000;
-    static int gameHeight = 1000;
 
-    static public int gridSizeX = 100;
-    static public int gridSizeY = 100;
+    private static int gameWidth = 1000;
+    private static int gameHeight = 1000;
+
+    public int gridSizeX = 100;
+    public int gridSizeY = 100;
 
     public Boolean paused = false;
     public Boolean drawMode = false;
@@ -49,7 +50,7 @@ public class Game {
 
         // User Interface
         JButton pauseButton = new JButton("Pause Simulation");
-        pauseButton.addActionListener(new pauseButtonListener());
+        pauseButton.addActionListener(new pauseButtonListener(this, pauseButton));
 
         drawModeCheckbox = new JCheckBox("Draw Mode");
         drawModeCheckbox.setForeground(Color.WHITE);
@@ -119,9 +120,6 @@ public class Game {
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        //
-
-
         try {
             Thread.sleep(500);
             cells[49][50].setAlive();
@@ -147,7 +145,6 @@ public class Game {
                     for (int x = 0; x < gridSizeX; x++) {
                         for (int y = 0; y < gridSizeY; y++) {
                             cells[x][y].step();
-                            //cells[x][y].repaint();
                         }
                     }
                 }
@@ -159,12 +156,7 @@ public class Game {
     }
 
     private void checkCheckboxes() {
-        if (drawModeCheckbox.isSelected()) {
-            drawMode = true;
-        }
-        else {
-            drawMode = false;
-        }
+        drawMode = drawModeCheckbox.isSelected();
     }
 
     public void deleteGameField() {
@@ -172,8 +164,8 @@ public class Game {
     }
 
     public JPanel createGamePanel(int sizeX, int sizeY) {
-        gridSizeX = sizeX;
-        gridSizeY = sizeY;
+        this.gridSizeX = sizeX;
+        this.gridSizeY = sizeY;
         this.cells = new Cell[sizeX][sizeY];
         JPanel gridPanel = new JPanel();
         gridPanel.setLayout(new GridLayout(sizeX,sizeY-1,0,0));
@@ -185,7 +177,7 @@ public class Game {
             gridPanel.add(currentCell);
 
             int x_pos = i % sizeY;
-            int y_pos = (int) i / sizeY;
+            int y_pos = i / sizeY;
 
             cells[x_pos][y_pos] = currentCell;
         }
