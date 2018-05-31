@@ -42,7 +42,7 @@ public class Cell extends JPanel {
             }
         }
 
-        // Check Rules
+        // Check Game of Life Rules
         if (neighbors_alive < 2) {
             nextState = false;
         }
@@ -61,7 +61,7 @@ public class Cell extends JPanel {
     }
 
     public void step() {
-
+        // Set the cell into the next state
         alive = nextState;
 
         if (alive) {
@@ -73,6 +73,8 @@ public class Cell extends JPanel {
     }
 
     public void fillNeighbors() {
+        // Fill the neighbors array so that the cell has 9 neighbors
+        // This makes iterating over the neighbors more convenient
         while (neighbors.size() != 8) {
             neighbors.add(new Cell(false));
         }
