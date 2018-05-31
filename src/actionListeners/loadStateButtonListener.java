@@ -9,16 +9,18 @@ import java.io.*;
 
 public class loadStateButtonListener implements ActionListener {
     Game game;
+    JButton pauseButton;
 
-    public loadStateButtonListener(Game gameReference) {
-        game = gameReference;
+    public loadStateButtonListener(Game gameReference, JButton pauseButton) {
+        this.game = gameReference;
+        this.pauseButton = pauseButton;
     }
     @Override
     public void actionPerformed(ActionEvent e) {
         game.epochCount = 0;
         JFileChooser c = new JFileChooser();
         // Demonstrate "Open" dialog:
-        int rVal = c.showOpenDialog(null);
+        int rVal = c.showOpenDialog(game.frame);
         if (rVal == JFileChooser.APPROVE_OPTION) {
             File file = c.getSelectedFile();
             BufferedReader br;
@@ -28,26 +30,28 @@ public class loadStateButtonListener implements ActionListener {
                 int gridSizeX = Integer.parseInt(br.readLine());
                 int gridSizeY = Integer.parseInt(br.readLine());
 
-                if (gridSizeX == game.gridSizeX && gridSizeY == game.gridSizeY) {
-                    for (int i = 0; i < game.gridSizeY; i++) {
-                        String states[] = br.readLine().split(" ");
-                        for (int j = 0; j < game.gridSizeX; j++) {
-                            if (states[j].equals("0")) {
-                                game.cells[j][i].wasAlive = false;
-                                game.cells[j][i].setDead();
-                            }
-                            else {
-                                game.cells[j][i].setAlive();
-                            }
+                game.paused = true;
+                game.deleteGameField();
+                game.gameField = game.createGamePanel(gridSizeX, gridSizeY);
+                game.frame.add(game.gameField);
+
+                for (int i = 0; i < game.gridSizeY; i++) {
+                    String states[] = br.readLine().split(" ");
+                    for (int j = 0; j < game.gridSizeX; j++) {
+                        if (states[j].equals("0")) {
+                            game.cells[j][i].wasAlive = false;
+                            game.cells[j][i].setDead();
+                        }
+                        else {
+                            game.cells[j][i].setAlive();
                         }
                     }
                 }
-                else {
-                    System.out.println("ERROR: Game Dimensions not fitting to the state file!");
-                }
                 br.close();
-            } catch (FileNotFoundException e1) {
-                e1.printStackTrace();
+                game.drawModeCheckbox.setSelected(false);
+                pauseButton.setText("Resume");
+
+
             } catch (IOException e1) {
                 e1.printStackTrace();
             }

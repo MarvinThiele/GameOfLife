@@ -24,7 +24,7 @@ public class Game {
 
     public int epochCount = 0;
 
-    private JCheckBox drawModeCheckbox;
+    public JCheckBox drawModeCheckbox;
 
     private Game() {
 
@@ -62,7 +62,7 @@ public class Game {
         saveStateButton.addActionListener(new saveStateButtonListener(this));
 
         JButton loadStateButton = new JButton("Load State");
-        loadStateButton.addActionListener(new loadStateButtonListener(this));
+        loadStateButton.addActionListener(new loadStateButtonListener(this, pauseButton));
 
         JButton clearBoardButton = new JButton("Clear Board");
         clearBoardButton.addActionListener(new clearBoardButtonListener(this));
