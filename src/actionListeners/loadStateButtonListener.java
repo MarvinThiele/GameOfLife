@@ -21,7 +21,7 @@ public class loadStateButtonListener implements ActionListener {
         int rVal = c.showOpenDialog(null);
         if (rVal == JFileChooser.APPROVE_OPTION) {
             File file = c.getSelectedFile();
-            BufferedReader br = null;
+            BufferedReader br;
 
             try {
                 br = new BufferedReader(new FileReader(file));

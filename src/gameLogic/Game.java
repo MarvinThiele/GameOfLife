@@ -19,6 +19,8 @@ public class Game {
 
     public int simulationSpeed = 200;
     public Cell[][] cells;
+    public JPanel gameField;
+    public JFrame frame;
 
     public int epochCount = 0;
 
@@ -36,24 +38,24 @@ public class Game {
     }
 
     public void run() {
-        cells = new Cell[gridSizeX][gridSizeY];
 
-        JFrame frame = new JFrame("Conway's Game of Life");
+
+        frame = new JFrame("Conway's Game of Life");
         frame.setLayout(new BorderLayout());
 
         ImageIcon img = new ImageIcon("./resources/icon.png");
         frame.setIconImage(img.getImage());
 
-        JPanel gridPanel = new JPanel();
-        JPanel user_interface = new JPanel();
 
+
+        // User Interface
         JButton pauseButton = new JButton("Pause");
         pauseButton.addActionListener(new pauseButtonListener());
 
         drawModeCheckbox = new JCheckBox("Draw Mode");
 
+        JLabel speedSliderLabel = new JLabel("Simulation Speed", JLabel.CENTER);
         JSlider speedSlider = new JSlider(JSlider.HORIZONTAL, 0, 1000, 200);
-        JLabel sliderLabel = new JLabel("Simulation Speed", JLabel.CENTER);
         speedSlider.addChangeListener(new sliderListener(this));
 
         JButton saveStateButton = new JButton("Save State");
@@ -65,153 +67,50 @@ public class Game {
         JButton clearBoardButton = new JButton("Clear Board");
         clearBoardButton.addActionListener(new clearBoardButtonListener(this));
 
-        JPanel user_interface_container = new JPanel();
-        user_interface_container.setLayout(new BorderLayout());
-
+        JPanel user_interface = new JPanel();
         user_interface.add(pauseButton);
         user_interface.add(drawModeCheckbox);
-        user_interface.add(sliderLabel);
+        user_interface.add(speedSliderLabel);
         user_interface.add(speedSlider);
         user_interface.add(saveStateButton);
         user_interface.add(loadStateButton);
         user_interface.add(clearBoardButton);
+
+        JPanel user_interface_container = new JPanel();
+        user_interface_container.setLayout(new BorderLayout());
         user_interface_container.add(user_interface, BorderLayout.NORTH);
 
+        // Statistics
         JPanel statistics_panel = new JPanel();
         JLabel epochCountLabel = new JLabel();
-        epochCountLabel.setText("Generation : 0");
-
+        epochCountLabel.setText("Generation 0");
         statistics_panel.add(epochCountLabel);
-        frame.add(statistics_panel, BorderLayout.NORTH);
 
+        // Settings
         JPanel settings_panel = new JPanel();
-        JLabel heightLabel = new JLabel("Height:");
-        JTextField heightTextField = new JTextField();
-        heightTextField.setPreferredSize(new Dimension(50, 24));
-        JLabel widthLabel = new JLabel("Width:");
-        JTextField widthTextField = new JTextField();
-        widthTextField.setPreferredSize(new Dimension(50, 24));
+        JLabel gameSizeLabel = new JLabel("Game Size:");
+        JTextField gameSizeTextField = new JTextField();
+        gameSizeTextField.setPreferredSize(new Dimension(50, 24));
+        JButton setDimensionsButton = new JButton("Save Dimensions");
+        setDimensionsButton.addActionListener(new setDimensionsListener(this, gameSizeTextField, pauseButton));
 
-        settings_panel.add(heightLabel);
-        settings_panel.add(heightTextField);
-        settings_panel.add(widthLabel);
-        settings_panel.add(widthTextField);
+        settings_panel.add(gameSizeLabel);
+        settings_panel.add(gameSizeTextField);
+        settings_panel.add(setDimensionsButton);
 
         user_interface_container.add(settings_panel, BorderLayout.SOUTH);
 
-        gridPanel.setLayout(new GridLayout(gridSizeX,gridSizeY-1,0,0));
+        this.gameField = createGamePanel(gridSizeX, gridSizeY);
 
-
-        // Generate Cells and Panels
-        for (int i = 0; i < gridSizeX*gridSizeY; i++) {
-            Cell currentCell = new Cell(false);
-            currentCell.addMouseListener(new cellMouseListener(this));
-            gridPanel.add(currentCell);
-
-            int x_pos = i % gridSizeY;
-            int y_pos = (int) i / gridSizeY;
-
-            cells[x_pos][y_pos] = currentCell;
-        }
-
-        // Give Neighbors
-        for (int x = 0; x < gridSizeX; x++) {
-            for (int y = 0; y < gridSizeY; y++) {
-                //Left Border
-                if (x == 0) {
-                    // Top Left
-                    if (y == 0) {
-                        System.out.println(x);
-                        System.out.println(y);
-                        cells[x][y].neighbors.add(cells[x][y+1]);
-                        cells[x][y].neighbors.add(cells[x+1][y]);
-                        cells[x][y].neighbors.add(cells[x+1][y+1]);
-                        cells[x][y].fillNeighbors();
-                    }
-                    // Bottom Left
-                    else if (y == gridSizeY-1) {
-                        cells[x][y].neighbors.add(cells[x][y-1]);
-                        cells[x][y].neighbors.add(cells[x+1][y]);
-                        cells[x][y].neighbors.add(cells[x+1][y-1]);
-                        cells[x][y].fillNeighbors();
-                    }
-                    // Middle
-                    else {
-                        cells[x][y].neighbors.add(cells[x][y-1]);
-                        cells[x][y].neighbors.add(cells[x][y+1]);
-                        cells[x][y].neighbors.add(cells[x+1][y-1]);
-                        cells[x][y].neighbors.add(cells[x+1][y]);
-                        cells[x][y].neighbors.add(cells[x+1][y+1]);
-                        cells[x][y].fillNeighbors();
-                    }
-                }
-                //Right Border
-                else if (x == gridSizeX-1) {
-                    // Top Right
-                    if (y == 0) {
-                        cells[x][y].neighbors.add(cells[x-1][y]);
-                        cells[x][y].neighbors.add(cells[x-1][y+1]);
-                        cells[x][y].neighbors.add(cells[x][y+1]);
-                        cells[x][y].fillNeighbors();
-                    }
-                    // Bottom Right
-                    else if (y == gridSizeY-1) {
-                        cells[x][y].neighbors.add(cells[x-1][y]);
-                        cells[x][y].neighbors.add(cells[x-1][y-1]);
-                        cells[x][y].neighbors.add(cells[x][y-1]);
-                        cells[x][y].fillNeighbors();
-                    }
-                    // Middle
-                    else {
-                        cells[x][y].neighbors.add(cells[x][y-1]);
-                        cells[x][y].neighbors.add(cells[x][y+1]);
-                        cells[x][y].neighbors.add(cells[x-1][y-1]);
-                        cells[x][y].neighbors.add(cells[x-1][y]);
-                        cells[x][y].neighbors.add(cells[x-1][y+1]);
-                    }
-                }
-                //Middle
-                else {
-                    // Middle Top
-                    if (y == 0) {
-                        cells[x][y].neighbors.add(cells[x-1][y]);
-                        cells[x][y].neighbors.add(cells[x+1][y]);
-                        cells[x][y].neighbors.add(cells[x-1][y+1]);
-                        cells[x][y].neighbors.add(cells[x][y+1]);
-                        cells[x][y].neighbors.add(cells[x+1][y+1]);
-                    }
-                    // Middle Bottom
-                    else if (y == gridSizeY-1) {
-                        cells[x][y].neighbors.add(cells[x-1][y]);
-                        cells[x][y].neighbors.add(cells[x+1][y]);
-                        cells[x][y].neighbors.add(cells[x+1][y-1]);
-                        cells[x][y].neighbors.add(cells[x][y-1]);
-                        cells[x][y].neighbors.add(cells[x-1][y-1]);
-                    }
-                    // Middle
-                    else {
-                        cells[x][y].neighbors.add(cells[x-1][y+1]);
-                        cells[x][y].neighbors.add(cells[x-1][y]);
-                        cells[x][y].neighbors.add(cells[x-1][y-1]);
-                        cells[x][y].neighbors.add(cells[x+1][y+1]);
-                        cells[x][y].neighbors.add(cells[x+1][y]);
-                        cells[x][y].neighbors.add(cells[x+1][y-1]);
-                        cells[x][y].neighbors.add(cells[x][y+1]);
-                        cells[x][y].neighbors.add(cells[x][y-1]);
-                    }
-                }
-
-            }
-        }
-
-        frame.add(gridPanel, BorderLayout.CENTER);
+        frame.add(statistics_panel, BorderLayout.NORTH);
+        frame.add(gameField, BorderLayout.CENTER);
         frame.add(user_interface_container, BorderLayout.SOUTH);
         frame.setSize(gameWidth, gameHeight);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         try {
-            Thread.sleep(2000);
+            Thread.sleep(500);
             while (true) {
                 Thread.sleep(simulationSpeed);
                 checkCheckboxes();
@@ -244,5 +143,118 @@ public class Game {
         else {
             drawMode = false;
         }
+    }
+
+    public void deleteGameField() {
+        this.frame.remove(this.gameField);
+    }
+
+    public JPanel createGamePanel(int sizeX, int sizeY) {
+        gridSizeX = sizeX;
+        gridSizeY = sizeY;
+        this.cells = new Cell[sizeX][sizeY];
+        JPanel gridPanel = new JPanel();
+        gridPanel.setLayout(new GridLayout(sizeX,sizeY-1,0,0));
+
+        // Generate Cells and Panels
+        for (int i = 0; i < sizeX*sizeY; i++) {
+            Cell currentCell = new Cell(false);
+            currentCell.addMouseListener(new cellMouseListener(this));
+            gridPanel.add(currentCell);
+
+            int x_pos = i % sizeY;
+            int y_pos = (int) i / sizeY;
+
+            cells[x_pos][y_pos] = currentCell;
+        }
+
+        // Give Neighbors
+        for (int x = 0; x < sizeX; x++) {
+            for (int y = 0; y < sizeY; y++) {
+                //Left Border
+                if (x == 0) {
+                    // Top Left
+                    if (y == 0) {
+                        cells[x][y].neighbors.add(cells[x][y+1]);
+                        cells[x][y].neighbors.add(cells[x+1][y]);
+                        cells[x][y].neighbors.add(cells[x+1][y+1]);
+                        cells[x][y].fillNeighbors();
+                    }
+                    // Bottom Left
+                    else if (y == sizeY-1) {
+                        cells[x][y].neighbors.add(cells[x][y-1]);
+                        cells[x][y].neighbors.add(cells[x+1][y]);
+                        cells[x][y].neighbors.add(cells[x+1][y-1]);
+                        cells[x][y].fillNeighbors();
+                    }
+                    // Middle
+                    else {
+                        cells[x][y].neighbors.add(cells[x][y-1]);
+                        cells[x][y].neighbors.add(cells[x][y+1]);
+                        cells[x][y].neighbors.add(cells[x+1][y-1]);
+                        cells[x][y].neighbors.add(cells[x+1][y]);
+                        cells[x][y].neighbors.add(cells[x+1][y+1]);
+                        cells[x][y].fillNeighbors();
+                    }
+                }
+                //Right Border
+                else if (x == sizeX-1) {
+                    // Top Right
+                    if (y == 0) {
+                        cells[x][y].neighbors.add(cells[x-1][y]);
+                        cells[x][y].neighbors.add(cells[x-1][y+1]);
+                        cells[x][y].neighbors.add(cells[x][y+1]);
+                        cells[x][y].fillNeighbors();
+                    }
+                    // Bottom Right
+                    else if (y == sizeY-1) {
+                        cells[x][y].neighbors.add(cells[x-1][y]);
+                        cells[x][y].neighbors.add(cells[x-1][y-1]);
+                        cells[x][y].neighbors.add(cells[x][y-1]);
+                        cells[x][y].fillNeighbors();
+                    }
+                    // Middle
+                    else {
+                        cells[x][y].neighbors.add(cells[x][y-1]);
+                        cells[x][y].neighbors.add(cells[x][y+1]);
+                        cells[x][y].neighbors.add(cells[x-1][y-1]);
+                        cells[x][y].neighbors.add(cells[x-1][y]);
+                        cells[x][y].neighbors.add(cells[x-1][y+1]);
+                    }
+                }
+                //Middle
+                else {
+                    // Middle Top
+                    if (y == 0) {
+                        cells[x][y].neighbors.add(cells[x-1][y]);
+                        cells[x][y].neighbors.add(cells[x+1][y]);
+                        cells[x][y].neighbors.add(cells[x-1][y+1]);
+                        cells[x][y].neighbors.add(cells[x][y+1]);
+                        cells[x][y].neighbors.add(cells[x+1][y+1]);
+                    }
+                    // Middle Bottom
+                    else if (y == sizeY-1) {
+                        cells[x][y].neighbors.add(cells[x-1][y]);
+                        cells[x][y].neighbors.add(cells[x+1][y]);
+                        cells[x][y].neighbors.add(cells[x+1][y-1]);
+                        cells[x][y].neighbors.add(cells[x][y-1]);
+                        cells[x][y].neighbors.add(cells[x-1][y-1]);
+                    }
+                    // Middle
+                    else {
+                        cells[x][y].neighbors.add(cells[x-1][y+1]);
+                        cells[x][y].neighbors.add(cells[x-1][y]);
+                        cells[x][y].neighbors.add(cells[x-1][y-1]);
+                        cells[x][y].neighbors.add(cells[x+1][y+1]);
+                        cells[x][y].neighbors.add(cells[x+1][y]);
+                        cells[x][y].neighbors.add(cells[x+1][y-1]);
+                        cells[x][y].neighbors.add(cells[x][y+1]);
+                        cells[x][y].neighbors.add(cells[x][y-1]);
+                    }
+                }
+
+            }
+        }
+        return gridPanel;
     }
 }
